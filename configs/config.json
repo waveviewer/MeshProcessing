@@ -1,3 +1,4 @@
 {
-  "mesh path" : "/media/wave/Wave/RoadCameras/ShanghaiTechRoadModel"
+  "mesh path": "/home/wave/3DModels/test1/build1.ply",
+  "save path": "../result/build1_keep_border.obj"
 }
