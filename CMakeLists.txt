@@ -40,6 +40,7 @@ find_package(Threads)
 add_executable(MeshProcessing
         sources/main.cpp
         headers/json.hpp
+        headers/CLI11.hpp
         sources/configs.cpp headers/configs.h
         sources/mesh_edge_collapse.cpp headers/mesh_edge_collapse.h
         headers/logger.h sources/logger.cpp

@@ -27,25 +27,34 @@ Config::Config(const std::string &config_json_filepath) {
     throw std::runtime_error("mesh path is missing in config file");
   }
 
-  if(config_json.contains("save path")){
+  if (config_json.contains("save path")) {
     savepath = config_json["save path"];
-  }  else {
+  } else {
+    throw std::runtime_error("save path is missing in config file");
+  }
+
+  if (config_json.contains("ratio")) {
+    ratio = config_json["ratio"];
+  } else {
     throw std::runtime_error("save path is missing in config file");
   }
 
   std::cout << "Init config file success !" << std::endl;
 }
 
-const std::string Config::getMeshPath(){
+const std::string Config::getMeshPath() {
   return mesh_path;
 }
 
-
-const std::string Config::getMeshName(){
+const std::string Config::getMeshName() {
   std::filesystem::path path(mesh_path);
   return path.stem().string();
 }
 
-const std::string Config::getSavePath(){
+const std::string Config::getSavePath() {
   return savepath;
+}
+
+const double Config::getStopRatio() {
+  return ratio;
 }

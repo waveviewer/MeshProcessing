@@ -1,4 +1,5 @@
 {
-  "mesh path": "D:\\Mesh\\test\\simple.obj",
-  "save path": "../result/simple_keep_border.obj"
+  "mesh path": "/home/wave/3DModels/ShanghaiTechRoadModel/Tile_+010_+009/Tile_+010_+009.obj",
+  "save path": "../result/Tile_+010_+009_keep_border_LH.obj",
+  "ratio": 0.1
 }

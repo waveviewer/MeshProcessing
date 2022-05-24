@@ -17,9 +17,11 @@ class Config{
   const std::string getMeshPath();
   const std::string getMeshName();
   const std::string getSavePath();
+  const double getStopRatio();
  private:
   std::string mesh_path;
   std::string savepath;
+  double ratio = 0.1;
 };
 
 #endif //MESHPROCESSING_SOURCES_CONFIGS_H_
