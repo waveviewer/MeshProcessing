@@ -43,7 +43,7 @@ const std::string Config::getMeshPath(){
 
 const std::string Config::getMeshName(){
   std::filesystem::path path(mesh_path);
-  return path.stem();
+  return path.stem().string();
 }
 
 const std::string Config::getSavePath(){

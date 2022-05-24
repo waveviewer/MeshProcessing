@@ -2,3 +2,6 @@
 logs
 reports
 result
+build
+.vscode
+configs

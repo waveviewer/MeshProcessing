@@ -39,8 +39,8 @@ void LH_keep_boundary(SM &surface_mesh, const double &ratio) {
 
   // stop condition
   // Contract the surface mesh as much as possible
-  SMS::Count_ratio_stop_predicate<SM> stop(0);
-  glogger->info("set stop ratio is {}",0);
+  SMS::Count_ratio_stop_predicate<SM> stop(ratio);
+  glogger->info("set stop ratio is {}",ratio);
 
   Border_is_constrained_edge_map bem(surface_mesh);
 

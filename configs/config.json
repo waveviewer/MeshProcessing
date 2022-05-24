@@ -1,4 +1,4 @@
 {
-  "mesh path": "/home/wave/3DModels/test1/build1.ply",
-  "save path": "../result/build1_keep_border.obj"
+  "mesh path": "D:\\Mesh\\test\\simple.obj",
+  "save path": "../result/simple_keep_border.obj"
 }

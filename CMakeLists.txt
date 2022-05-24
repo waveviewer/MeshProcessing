@@ -1,15 +1,33 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.20)
 project(MeshProcessing)
-
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+message("platform: ${CMAKE_SYSTEM_NAME}")
 
-set(BOOST_ROOT "/home/wave/DownloadLibs/boost_1_77_0")
-find_package(Boost 1.77.0 EXACT REQUIRED)
+find_package(Eigen3 REQUIRED NO_MODULE)
 
-set(CGAL_DIR /home/wave/DownloadLibs/cgal)
-find_package(CGAL REQUIRED OPTIONAL_COMPONENTS Qt5)
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+        message("compile on Windows")
+        # set(CMAKE_TOOLCHAIN_FILE "D:\\Tools\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake")
+        find_package(Boost REQUIRED)
+        find_package(CGAL REQUIRED OPTIONAL_COMPONENTS Qt5)
+        if(CGAL_Qt5_FOUND)
+                add_definitions(-DCGAL_USE_BASIC_VIEWER -DQT_NO_KEYWORDS)
+        endif()
+endif()
+
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+        message("compile on Linux")
+        set(BOOST_ROOT "/home/wave/DownloadLibs/boost_1_77_0")
+        find_package(Boost 1.77.0 EXACT REQUIRED)
+        set(CGAL_DIR "/home/wave/DownloadLibs/cgal")
+        find_package(CGAL REQUIRED OPTIONAL_COMPONENTS Qt5)
+        if(CGAL_Qt5_FOUND)
+                add_definitions(-DCGAL_USE_BASIC_VIEWER -DQT_NO_KEYWORDS)
+        endif()
+endif()
+
 
 add_library(spdlog INTERFACE)
 target_include_directories(
@@ -29,5 +47,6 @@ add_executable(MeshProcessing
         )
 
 
-target_link_libraries(MeshProcessing CGAL::CGAL CGAL::CGAL_Basic_viewer Eigen3::Eigen)
+# target_link_libraries(MeshProcessing CGAL::CGAL CGAL::CGAL_Qt5 Eigen3::Eigen)
+target_link_libraries(MeshProcessing CGAL::CGAL_Qt5 Eigen3::Eigen)
 target_link_libraries(MeshProcessing spdlog ${CMAKE_THREAD_LIBS_INIT})
