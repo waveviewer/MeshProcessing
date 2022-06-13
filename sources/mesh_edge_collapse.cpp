@@ -56,18 +56,18 @@ void LH_keep_boundary(SM &surface_mesh, const double &ratio) {
                 collapse_duration.count());
 
   // now check!
-  for(halfedge_descriptor hd : halfedges(surface_mesh))
-  {
-    if(CGAL::is_border(hd,surface_mesh))
-    {
-      --num_border_edges;
-      if(constrained_halfedges[hd] != std::make_pair(surface_mesh.point(source(hd, surface_mesh)),
-                                                     surface_mesh.point(target(hd, surface_mesh))))
-      {
-        glogger->debug("oops. send us a bug report");
-      }
-    }
-  }
+  // for(halfedge_descriptor hd : halfedges(surface_mesh))
+  // {
+  //   if(CGAL::is_border(hd,surface_mesh))
+  //   {
+  //     --num_border_edges;
+  //     if(constrained_halfedges[hd] != std::make_pair(surface_mesh.point(source(hd, surface_mesh)),
+  //                                                    surface_mesh.point(target(hd, surface_mesh))))
+  //     {
+  //       glogger->debug("oops. send us a bug report");
+  //     }
+  //   }
+  // }
 }
 
 void LT_standard(SM &surface_mesh, const double &ratio) {

@@ -43,13 +43,13 @@ int main(int argc, char **argv) {
 
   SM surfacemesh;
   CGAL::IO::read_polygon_mesh(mesh_path, surfacemesh);
-  CGAL::draw(surfacemesh, "original mesh");
+  // CGAL::draw(surfacemesh, "original mesh");
   glogger->info("simplify mesh : {}, ratio is {}", mesh_path, ratio);
-  LT_standard(surfacemesh, ratio);
-//  GH_QEM_simplification(surfacemesh, ratio);
-//  LH_keep_boundary(surfacemesh, ratio);
-  CGAL::draw(surfacemesh, "simplification");
-//  CGAL::IO::write_polygon_mesh(savepath, surfacemesh, CGAL::parameters::stream_precision(17));
-//  glogger->info("save result in {}", savepath);
+  // LT_standard(surfacemesh, ratio);
+  // GH_QEM_simplification(surfacemesh, ratio);
+  LH_keep_boundary(surfacemesh, ratio);
+  // CGAL::draw(surfacemesh, "simplification");
+ CGAL::IO::write_polygon_mesh(savepath, surfacemesh, CGAL::parameters::stream_precision(17));
+ glogger->info("save result in {}", savepath);
   return 0;
 }

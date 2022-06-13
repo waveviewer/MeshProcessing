@@ -1,5 +1,5 @@
 {
-  "mesh path": "/home/wave/3DModels/ShanghaiTechRoadModel/Tile_+010_+009/Tile_+010_+009.obj",
-  "save path": "../result/Tile_+010_+009_keep_border_LH.obj",
-  "ratio": 0.1
+  "mesh path": "D:\\Mesh\\FengxianPart0\\original.off",
+  "save path": "../result/02_vsLT_kb.obj",
+  "ratio": 0.2
 }

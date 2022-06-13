@@ -6,6 +6,7 @@
 
 Config::Config(const std::string &config_json_filepath) {
   if (!std::filesystem::exists(config_json_filepath)) {
+    std::cerr << "Could not open " << config_json_filepath << std::endl;
     throw std::runtime_error("Could not open " + config_json_filepath);
   }
   std::ifstream input_json_file(config_json_filepath);
