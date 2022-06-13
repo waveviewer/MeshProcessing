@@ -42,14 +42,27 @@ int main(int argc, char **argv) {
   }
 
   SM surfacemesh;
-  CGAL::IO::read_polygon_mesh(mesh_path, surfacemesh);
-  CGAL::draw(surfacemesh, "original mesh");
+  bool isopen = CGAL::IO::read_polygon_mesh(mesh_path, surfacemesh);
+  if(!isopen){
+    glogger->info("read polygon mesh failed");
+    return -1;
+  }
+  std::cout << std::to_string(surfacemesh.num_vertices()) << std::endl;
+//  CGAL::draw(surfacemesh, "original mesh");
   glogger->info("simplify mesh : {}, ratio is {}", mesh_path, ratio);
-  LT_standard(surfacemesh, ratio);
-//  GH_QEM_simplification(surfacemesh, ratio);
+//  LT_standard(surfacemesh, ratio);
+  GH_QEM_simplification(surfacemesh, ratio);
 //  LH_keep_boundary(surfacemesh, ratio);
-  CGAL::draw(surfacemesh, "simplification");
-//  CGAL::IO::write_polygon_mesh(savepath, surfacemesh, CGAL::parameters::stream_precision(17));
-//  glogger->info("save result in {}", savepath);
+//  GH_keep_boundary(surfacemesh, ratio);
+//  CGAL::draw(surfacemesh, "simplification");
+  std::cout << std::to_string(surfacemesh.num_vertices()) << std::endl;
+  std::ofstream vertex_ofs;
+  vertex_ofs.open("/home/wave/CLionProjects/MeshProcessing/visualize/vertex_idx.txt", std::ios::out);
+  for(auto vertex : surfacemesh.vertices()){
+    vertex_ofs << vertex << std::endl;
+  }
+  vertex_ofs.close();
+  CGAL::IO::write_polygon_mesh(savepath, surfacemesh, CGAL::parameters::stream_precision(17));
+  glogger->info("save result in {}", savepath);
   return 0;
 }

@@ -1,5 +1,5 @@
 {
-  "mesh path": "/home/wave/3DModels/ShanghaiTechRoadModel/Tile_+010_+009/Tile_+010_+009.obj",
-  "save path": "../result/Tile_+010_+009_keep_border_LH.obj",
+  "mesh path": "/home/wave/3DModels/jkroad.obj",
+  "save path": "../result/GH_01_jkroad.obj",
   "ratio": 0.1
 }
