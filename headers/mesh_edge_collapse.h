@@ -2,8 +2,8 @@
 // Created by wave on 2022/4/14.
 //
 
-#ifndef MESHPROCESSING_SOURCES_MESH_EDGE_COLLAPSE_H_
-#define MESHPROCESSING_SOURCES_MESH_EDGE_COLLAPSE_H_
+#ifndef MESHPROCESSING_HEADERS_MESH_EDGE_COLLAPSE_H_
+#define MESHPROCESSING_HEADERS_MESH_EDGE_COLLAPSE_H_
 
 #include "../headers/logger.h"
 
@@ -16,15 +16,18 @@
 #include <CGAL/draw_surface_mesh.h>
 
 // Simplification
-#include <CGAL/Surface_mesh_simplification/edge_collapse.h>
+#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Bounded_normal_change_placement.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_ratio_stop_predicate.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/GarlandHeckbert_policies.h>
-#include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Bounded_normal_change_placement.h>
+#include <CGAL/Surface_mesh_simplification/edge_collapse.h>
+
 // Visitor base
 #include <CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h>
+
 // Midpoint placement policy
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Midpoint_placement.h>
-//Placement wrapper
+
+// Placement wrapper
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Constrained_placement.h>
 #include <CGAL/Surface_mesh_simplification/Policies/Edge_collapse/LindstromTurk_placement.h>
 
@@ -42,13 +45,13 @@ typedef typename GH_policies::Get_cost GH_cost;
 typedef typename GH_policies::Get_placement GH_placement;
 typedef SMS::Bounded_normal_change_placement<GH_placement> Bounded_GH_placement;
 
-void GH_QEM_simplification(SM &surface_mesh, const double &ratio);
+void GH_QEM_standard(SM &surface_mesh, const double &ratio);
 
 void LT_standard(SM &surface_mesh, const double &ratio);
 
-void LH_keep_boundary(SM &surface_mesh, const double &ratio);
+void LT_keep_boundary(SM &surface_mesh, const double &ratio);
 
-//void GH_keep_boundary(SM &surface_mesh, const double &ratio);
+// void GH_keep_boundary(SM &surface_mesh, const double &ratio);
 
 // BGL property map which indicates whether an edge is marked as non-removable
 struct Border_is_constrained_edge_map {
@@ -58,45 +61,35 @@ struct Border_is_constrained_edge_map {
   typedef value_type reference;
   typedef boost::readable_property_map_tag category;
   Border_is_constrained_edge_map(const SM &sm) : sm_ptr(&sm) {}
-  friend value_type get(const Border_is_constrained_edge_map &m, const key_type &edge) {
+  friend value_type get(const Border_is_constrained_edge_map &m,
+                        const key_type &edge) {
     return CGAL::is_border(edge, *m.sm_ptr);
   }
 };
 
-// UV property map
+// UV property map and Visitor function
 typedef SM::Property_map<vertex_descriptor, Kernel::Point_2> UV_pmap;
 typedef SMS::Edge_profile<SM> Profile;
 struct My_visitor : SMS::Edge_collapse_visitor_base<SM> {
-  My_visitor(UV_pmap)
-      : uv_pmap(uv_pmap) {}
+  My_visitor(UV_pmap) : uv_pmap(uv_pmap) {}
+
   // Called during the processing phase for each edge being collapsed.
   // If placement is absent the edge is left uncollapsed.
-  void OnCollapsing(const Profile &prof,
-                    boost::optional<Point> placement) {
+  void OnCollapsing(const Profile &prof, boost::optional<Point> placement) {
     if (placement) {
-//      p0 = prof.p0();
-//      p1 = prof.p1();
+      p0 = prof.p0();
+      p1 = prof.p1();
       vertex_descriptor v0 = prof.v0();
       vertex_descriptor v1 = prof.v1();
-//      std::ofstream vertex_ofs;
-//      vertex_ofs.open("/home/wave/CLionProjects/MeshProcessing/visualize/vertex_change.txt", std::ios::app);
-//      vertex_ofs << "vertex of edge is " << v0 << " and " << v1 << std::endl;
-//      vertex_ofs.close();
-//      std::cout << "vertex of edge is " << v0 << " and " << v1 << std::endl;
-//      p0_2 = get(uv_pmap, v0);
-//      p1_2 = get(uv_pmap, v1);
-//      p_2 = CGAL::midpoint(p0_2, p1_2);
+      p0_2 = get(uv_pmap, v0);
+      p1_2 = get(uv_pmap, v1);
+      p_2 = CGAL::midpoint(p0_2, p1_2);
     }
   }
 
   // Called after each edge has been collapsed
-  void OnCollapsed(const Profile & prof, vertex_descriptor vd) {
-//    put(uv_pmap, vd, p_2);
-//    std::ofstream vertex_ofs;
-//    vertex_ofs.open("/home/wave/CLionProjects/MeshProcessing/visualize/vertex_change.txt", std::ios::app);
-//    vertex_ofs << "new vertex is " << vd << std::endl;
-//    vertex_ofs.close();
-//  std::cout << "new vertex is " << vd << std::endl;
+  void OnCollapsed(const Profile &prof, vertex_descriptor vd) {
+    put(uv_pmap, vd, p_2);
   }
 
   UV_pmap uv_pmap;
@@ -104,4 +97,4 @@ struct My_visitor : SMS::Edge_collapse_visitor_base<SM> {
   Kernel::Point_2 p0_2, p1_2, p_2;
 };
 
-#endif //MESHPROCESSING_SOURCES_MESH_EDGE_COLLAPSE_H_
+#endif  // MESHPROCESSING_HEADERS_MESH_EDGE_COLLAPSE_H_

@@ -1,5 +1,7 @@
 {
-  "mesh path": "D:\\Mesh\\FengxianPart0\\original.off",
-  "save path": "../result/02_vsLT_kb.obj",
-  "ratio": 0.2
+  "mesh path": "D:\\Mesh\\Armadillo.ply",
+  "save path": "D:\\VisualStudioProjects\\meshprocessing\\result\\GH_03_Armadillo.ply",
+  "logger path":"D:\\VisualStudioProjects\\meshprocessing\\logs",
+  "ratio": 0.3,
+  "method": 0
 }
